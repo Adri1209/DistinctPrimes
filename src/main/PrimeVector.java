@@ -21,9 +21,10 @@ public class PrimeVector implements Runnable {
     }
 
     public void fillPrimeVector() {
+        MersenneTwisterFast randomGenerator = new MersenneTwisterFast();
         int index = 0;
         while (index < vector.length) {
-            int prime = Configuration.instance.randomGenerator.nextInt(1000);
+            int prime = randomGenerator.nextInt(1000);
             if (isPrime(prime)) {
                 vector[index] = prime;
                 index++;
