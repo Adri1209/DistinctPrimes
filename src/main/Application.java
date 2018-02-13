@@ -6,43 +6,25 @@ public class Application {
     private int totalNumberOfPrimes = 0;
 
 
-
     public void execute() {
         final CyclicBarrier cyclicBarrier = new CyclicBarrier(Configuration.instance.numberOfCores);
 
-        Thread task01 = new Thread(new PrimeVector(Configuration.instance.order, this, cyclicBarrier));
-        Thread task02 = new Thread(new PrimeVector(Configuration.instance.order, this, cyclicBarrier));
-        Thread task03 = new Thread(new PrimeVector(Configuration.instance.order, this, cyclicBarrier));
-        Thread task04 = new Thread(new PrimeVector(Configuration.instance.order, this, cyclicBarrier));
-        Thread task05 = new Thread(new PrimeVector(Configuration.instance.order, this, cyclicBarrier));
-        Thread task06 = new Thread(new PrimeVector(Configuration.instance.order, this, cyclicBarrier));
-        Thread task07 = new Thread(new PrimeVector(Configuration.instance.order, this, cyclicBarrier));
-        Thread task08 = new Thread(new PrimeVector(Configuration.instance.order, this, cyclicBarrier));
-
+        Thread[] threads = new Thread[Configuration.instance.numberOfCores];
 
         long runtime = System.currentTimeMillis();
 
-        task01.start();
-        task02.start();
-        task03.start();
-        task04.start();
-        task05.start();
-        task06.start();
-        task07.start();
-        task08.start();
+        for (int i = 0; i < threads.length; i++) {
 
-        try {
-            task01.join();
-            task02.join();
-            task03.join();
-            task04.join();
-            task05.join();
-            task06.join();
-            task07.join();
-            task08.join();
+            threads[i] = new Thread(new PrimeVector(Configuration.instance.order, this, cyclicBarrier));
+            threads[i].start();
         }
-        catch (Exception e){
-            e.getStackTrace();
+
+        for (int j = 0; j < threads.length; j++) {
+            try {
+                threads[j].join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         System.out.println();
@@ -51,15 +33,7 @@ public class Application {
     }
 
     public void updateTotalNumberOfPrimes(int numberOfPrimes) {
-        //System.out.println("NumberOfPrimes: " + numberOfPrimes);
         this.totalNumberOfPrimes += numberOfPrimes;
-    }
-
-    private int getRandomNumber(){
-        MersenneTwisterFast mersenneTwisterFast = new MersenneTwisterFast();
-        int number = mersenneTwisterFast.nextInt(100);
-        if (number % 2 == 0) number--;
-        return number;
     }
 
     public static void main(String... args) {
