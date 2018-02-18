@@ -7,8 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 public class Tests {
 
-    //@Test
-    /*
+    @Test
     public void testAlgorithm(){
         Application application = new Application();
         final CyclicBarrier cyclicBarrier = new CyclicBarrier(Configuration.instance.numberOfCores);
@@ -17,7 +16,5 @@ public class Tests {
         primeVector.execute();
         System.out.println(primeVector.result);
         assertEquals(121,primeVector.result);
-
     }
-    */
 }

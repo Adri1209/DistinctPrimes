@@ -1,15 +1,16 @@
 package main;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
 public class PrimeVector implements Runnable {
 
-    private int[] vector;
+    protected int[] vector;
     private CyclicBarrier cyclicBarrier;
     private Application application;
-    private int result;
+    protected int result;
 
 
     public PrimeVector(int order, Application application, CyclicBarrier cyclicBarrier) {
@@ -21,10 +22,10 @@ public class PrimeVector implements Runnable {
     }
 
     public void fillPrimeVector() {
-        MersenneTwisterFast randomGenerator = new MersenneTwisterFast();
+        Random randomGenerator = new Random();
         int index = 0;
         while (index < vector.length) {
-            int prime = randomGenerator.nextInt(1000);
+            int prime = randomGenerator.nextInt(1000)+1;
             if (isPrime(prime)) {
                 vector[index] = prime;
                 index++;
